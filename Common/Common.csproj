@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Tigerspike.LandmarkRemark.Common</AssemblyName>
+    <RootNamespace>Tigerspike.LandmarkRemark.Common</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Spatial" Version="5.8.4" />
+  </ItemGroup>
+
+</Project>

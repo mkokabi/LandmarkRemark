@@ -15,10 +15,14 @@ of the application.
 5. As a user I have the ability to search for a note based on contained text or  user-name  
 
 ## Backlog
-- As a user I can register with an email, username and password
-- As a user I can login with my username or email and my password
-- As a user after login I can see my notes on their location on the map
-- As a user I can see other users notes on the location they have been taken
-- As a user I can create a note on a location
-- As a user I can search for a user name and see his/her notes
-- As a user I can search for a text in the notes
+[Online available in DevOps](https://mohsenapp.visualstudio.com/Tigerspike/_workitems/recentlyupdated/)
+
+## Design
+### Front-end 
+A thin front-end using React and Google map api
+
+### Back-end
+Dot net core 3.0 Rest API with Entity frameword
+
+### Database
+SQL Server

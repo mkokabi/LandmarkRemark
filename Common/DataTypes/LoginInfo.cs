@@ -2,7 +2,13 @@
 {
     public class LoginInfo
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public LoginInfo(string login, string password)
+        {
+            this.Login = login;
+            this.Password = password;
+        }
+
+        public string Login { get; private set; }
+        public string Password { get; private set; }
     }
 }

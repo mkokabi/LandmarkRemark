@@ -2,9 +2,14 @@
 {
     public class RegisterationInfo
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-
-        public string Email { get; set; }
+        public RegisterationInfo(string username, string email, string password)
+        {
+            this.UserName = username;
+            this.Email = email;
+            this.Password = password;
+        }
+        public string UserName { get; private set; }
+        public string Password { get; private set; }
+        public string Email { get; private set; }
     }
 }

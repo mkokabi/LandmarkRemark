@@ -34,6 +34,6 @@ namespace Tigerspike.LandmarkRemark.Common
         /// <param name="location">The location note has been taken</param>
         /// <param name="text">The note text.</param>
         /// <returns></returns>
-        Note CreateNote(int userId, Geometry location, string text);
+        int CreateNote(int userId, Geometry location, string text);
     }
 }

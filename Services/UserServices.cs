@@ -39,7 +39,7 @@ namespace Tigerspike.LandmarkRemark.Services
             throw new LoginFailedException();
         }
 
-        public UserInfo RegisterUser(RegisterationInfo registerationInfo)
+        public UserInfo RegisterUser(RegistrationInfo registerationInfo)
         {
             var username = registerationInfo.UserName.ToUpper();
             var email = registerationInfo.Email.ToUpper();

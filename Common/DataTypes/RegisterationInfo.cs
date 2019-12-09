@@ -1,8 +1,8 @@
 ﻿namespace Tigerspike.LandmarkRemark.Common
 {
-    public class RegisterationInfo
+    public class RegistrationInfo
     {
-        public RegisterationInfo(string username, string email, string password)
+        public RegistrationInfo(string username, string email, string password)
         {
             this.UserName = username;
             this.Email = email;

@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="registerationInfo">Registration info</param>
         /// <returns></returns>
-        UserInfo RegisterUser(RegisterationInfo registerationInfo);
+        UserInfo RegisterUser(RegistrationInfo registerationInfo);
 
         /// <summary>
         /// Log a user in

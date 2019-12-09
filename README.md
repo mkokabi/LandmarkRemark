@@ -26,3 +26,17 @@ Dot net core 3.0 Rest API with Entity frameword
 
 ### Database
 SQL Server
+
+
+## Deployment
+
+### Database
+Creating initial migration
+```
+\Tigerspike.LandmarkRemark\Api>dotnet ef migrations add Initial
+```
+Deploying the database
+```
+\Tigerspike.LandmarkRemark\Api>dotnet ef database update
+```
+

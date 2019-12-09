@@ -34,7 +34,7 @@ namespace TestProject
         [Fact]
         public void RegisterUser_NewUserRecordShouldBeCreated()
         {
-            var regInfo = new RegisterationInfo(username: "testusername", email: "testemail@email.com", password: "Passw0rd");
+            var regInfo = new RegistrationInfo(username: "testusername", email: "testemail@email.com", password: "Passw0rd");
             var userInfo = userServices.RegisterUser(regInfo);
             userInfo.Should().NotBeNull();
             userInfo.Username.Should().Be(regInfo.UserName);
@@ -58,7 +58,7 @@ namespace TestProject
         {
             CreateTestUser();
             userServices.Invoking(us =>
-                us.RegisterUser(new RegisterationInfo(username: "testusername", email: "testemail@email.com", password: "Passw0rd")))
+                us.RegisterUser(new RegistrationInfo(username: "testusername", email: "testemail@email.com", password: "Passw0rd")))
             .Should().Throw<DuplicateUserException>();
         }
 

@@ -72,12 +72,12 @@ namespace TestProject
         public void StoreNoteOnLocation()
         {
             CreateTestUser();
-            var userId = landmarkRemarkContext.Users.First().Id;
+            var username = landmarkRemarkContext.Users.First().Username;
             var location = GeometryPoint.Create(-122.12, 47.67);
 
             var remarkService = new RemarkServices(landmarkRemarkContext);
 
-            var noteId = remarkService.CreateNote(userId, location, "Note A");
+            var noteId = remarkService.CreateNote(username, location, "Note A");
             noteId.Should().Be(1);
             landmarkRemarkContext.Notes.Should().HaveCount(1);
         }
@@ -88,7 +88,7 @@ namespace TestProject
             var remarkService = new RemarkServices(landmarkRemarkContext);
             var location = GeometryPoint.Create(-122.12, 47.67);
 
-            remarkService.Invoking(rs => rs.CreateNote(1, location, "Note A")).Should().Throw<UserNotFoundException>();
+            remarkService.Invoking(rs => rs.CreateNote("testuser1", location, "Note A")).Should().Throw<UserNotFoundException>();
         }
 
         [Fact]

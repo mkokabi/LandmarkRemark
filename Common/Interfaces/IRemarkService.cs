@@ -30,10 +30,10 @@ namespace Tigerspike.LandmarkRemark.Common
         /// <summary>
         /// Create a note
         /// </summary>
-        /// <param name="userId">The owner</param>
+        /// <param name="username">The owner</param>
         /// <param name="location">The location note has been taken</param>
         /// <param name="text">The note text.</param>
         /// <returns></returns>
-        int CreateNote(int userId, Geometry location, string text);
+        int CreateNote(string username, Geometry location, string text);
     }
 }

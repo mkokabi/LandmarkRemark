@@ -9,7 +9,7 @@ namespace Tigerspike.LandmarkRemark.Data.DataModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime Modified { get; set; }
     }
 }

@@ -9,10 +9,6 @@ namespace Tigerspike.LandmarkRemark.Common.Exceptions
         {
         }
 
-        public UserNotFoundException(int userId) : base ($"{userId} not found.")
-        {
-        }
-
         public UserNotFoundException(string message) : base(message)
         {
         }

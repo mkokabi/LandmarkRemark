@@ -17,12 +17,12 @@ namespace Tigerspike.LandmarkRemark.Services
         }
 
 
-        public int CreateNote(int userId, Geometry location, string text)
+        public int CreateNote(string username, Geometry location, string text)
         {
-            var user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            var user = dbContext.Users.FirstOrDefault(u => u.Username == username);
             if (user == null)
             {
-                throw new UserNotFoundException(userId);
+                throw new UserNotFoundException($"{username} not found.");
             }
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
             var point = location as  GeometryPoint;
@@ -48,12 +48,14 @@ namespace Tigerspike.LandmarkRemark.Services
             var x = dbContext.Notes.Select(n => n.Location.Distance(geoPoint));
             return dbContext.Notes
                 .Where(n => n.Location.IsWithinDistance(geoPoint, 0.01))
-                .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n.Body, n.Location, u.Username })
+                .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n.Body, n.Location, u })
                 .Select(nu => new Note
                 {
                     Owner = new UserInfo
                     {
-                        Username = nu.Username
+                        Username = nu.u.Username,
+                        Firstname = nu.u.Firstname,
+                        Lastname = nu.u.Lastname
                     },
                     Body = nu.Body,
                     Location = GeometryPoint.Create(nu.Location.Coordinate.X, nu.Location.Coordinate.Y)
@@ -64,12 +66,14 @@ namespace Tigerspike.LandmarkRemark.Services
         {
             return dbContext.Notes
                 .Where(n => n.Body.Contains(text))
-                .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n.Body, n.Location, u.Username })
+                .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n.Body, n.Location, u })
                 .Select(nu => new Note
                 {
                     Owner = new UserInfo
                     {
-                        Username = nu.Username
+                        Username = nu.u.Username,
+                        Firstname = nu.u.Firstname,
+                        Lastname = nu.u.Lastname
                     },
                     Body = nu.Body,
                     Location = GeometryPoint.Create(nu.Location.Coordinate.X, nu .Location.Coordinate.Y)
@@ -80,12 +84,14 @@ namespace Tigerspike.LandmarkRemark.Services
         {
             return dbContext.Notes
                 .Where(n => n.Owner.Id == userId)
-                .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n.Body, n.Location, u.Username })
+                .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n.Body, n.Location, u })
                 .Select(nu => new Note
                 {
                     Owner = new UserInfo
                     {
-                        Username = nu.Username
+                        Username = nu.u.Username,
+                        Firstname = nu.u.Firstname,
+                        Lastname = nu.u.Lastname
                     },
                     Body = nu.Body,
                     Location = GeometryPoint.Create(nu.Location.Coordinate.X, nu.Location.Coordinate.Y)

@@ -55,6 +55,8 @@ namespace Api
 
             services.AddScoped<IUserService, UserServices>();
             services.AddScoped<ICrypto, Crypto>();
+
+            services.AddScoped<IRemarkService, RemarkServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

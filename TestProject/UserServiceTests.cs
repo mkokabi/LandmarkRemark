@@ -1,8 +1,11 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using Tigerspike.LandmarkRemark.Common;
 using Tigerspike.LandmarkRemark.Common.Exceptions;
 using Tigerspike.LandmarkRemark.Data;
@@ -28,7 +31,9 @@ namespace TestProject
             landmarkRemarkContext = new LandmarkRemarkContext(options);
             crypto = Substitute.For<ICrypto>();
             crypto.Hash(default).ReturnsForAnyArgs(x => "Hashed" + x.Arg<string>());
-            userServices = new UserServices(landmarkRemarkContext, crypto);
+            var configuration = Substitute.For<IConfiguration>();
+            configuration["Secret"] = "A secret 1234567890";
+            userServices = new UserServices(landmarkRemarkContext, crypto, configuration);
         }
 
         [Fact]
@@ -68,6 +73,23 @@ namespace TestProject
             CreateTestUser();
             userServices.Login(new LoginInfo(login: "testusername", password: "Passw0rd")).Should().NotBeNull();
             userServices.Login(new LoginInfo(login: "testemail@email.com", password: "Passw0rd")).Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Login_ShouldReturnClaimsInJwtToken()
+        {
+            CreateTestUser();
+            UserInfo userInfo = userServices.Login(new LoginInfo(login: "testusername", password: "Passw0rd"));
+            userInfo.Should().NotBeNull();
+            var token = userInfo.Token;
+            token.Should().NotBeNullOrWhiteSpace();
+            var handler = new JwtSecurityTokenHandler();
+            var jwttoken = handler.ReadJwtToken(token);
+            jwttoken.Should().NotBeNull();
+            var upnClaim = jwttoken.Claims.FirstOrDefault(c => c.Type == "upn");
+            upnClaim.Should().NotBeNull().And.Match<Claim>((c) => c.Value == "testusername");
+            var emailClaim = jwttoken.Claims.FirstOrDefault(c => c.Type == "email");
+            emailClaim.Should().NotBeNull().And.Match<Claim>((c) => c.Value == "testemail@email.com");
         }
 
         [Fact]

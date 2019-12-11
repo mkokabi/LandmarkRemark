@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Home from './components/Home';
 import Login from './components/Login';
 import Profile from './components/Profile';
+import Note from './components/Note';
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
           <Route exact path="/" component={Home} />
           <Route path="/Login" component={Login} />
           <Route path="/Profile" component={Profile} />
+          <Route path="/TakeNote" component={Note} />
         </Layout>
     </div>
   );

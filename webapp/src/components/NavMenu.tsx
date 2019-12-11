@@ -57,6 +57,9 @@ const NavMenu = () => {
                 <DropdownItem tag={Link} to="/Profile">
                   Profile
                 </DropdownItem>
+                <DropdownItem tag={Link} to="/TakeNote">
+                  Take note
+                </DropdownItem>
                 <DropdownItem>
                   Logout
                 </DropdownItem>

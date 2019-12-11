@@ -25,7 +25,11 @@ namespace Tigerspike.LandmarkRemark.Api.Controllers
         [HttpGet]
         public IActionResult GetNotes([FromQuery]double x, [FromQuery]double y)
         {
-            var notes = remarkService.GetNotesByLocation(GeometryPoint.Create(x, y));
+            // var notes = remarkService.GetNotesByLocation(GeometryPoint.Create(x, y));
+            var notes = new[] { 
+                new Note { Body = "Note A", Location = GeometryPoint.Create(-122.12, 47.67), Owner = new UserInfo { Username = "User 1" } },
+                new Note { Body = "Note B", Location = GeometryPoint.Create(-122.13, 47.68), Owner = new UserInfo { Username = "User 2" } }
+            };
             return Ok(notes.Select(n => new Model.Note(
                 body: n.Body,
                 x: (n.Location as GeometryPoint).X,

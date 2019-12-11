@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { LoginState } from "../store";
 import { userActions } from "../store/actions";
 import { IUserInfo } from "../services/userService";
+import NotesMap from "./NotesMap";
 
 type HomeProps = LoginState & typeof userActions;
 
@@ -17,6 +18,7 @@ class Home extends React.PureComponent<HomeProps> {
             ? "Logged in, Hi " + (this.props.UserInfo as IUserInfo).firstName
             : "Please log in"}
         </p>
+        <NotesMap></NotesMap>
       </div>
     );
   }

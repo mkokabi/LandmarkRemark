@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
 import { LoginState } from "../store";
 import { userService } from "../services/userService";
 import { userActions } from "../store/actions";

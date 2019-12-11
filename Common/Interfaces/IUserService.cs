@@ -15,5 +15,6 @@
         /// <param name="loginInfo">Login info</param>
         /// <returns></returns>
         UserInfo Login(LoginInfo loginInfo);
+        UserInfo Get(string username);
     }
 }

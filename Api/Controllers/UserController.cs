@@ -31,9 +31,9 @@ namespace Api.Controllers
         [HttpPost("Login")]
         public IActionResult Login(Tigerspike.LandmarkRemark.Api.Model.LoginInfo loginInfo)
         {
-            return Ok(new Tigerspike.LandmarkRemark.Api.Model.LoginResult("username1", "test@email.com",
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cG4iOiJ1c2VybmFtZTEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwibmJmIjoxNTc2MDI3MDU5LCJleHAiOjE1NzY2MzE4NTksImlhdCI6MTU3NjAyNzA1OX0.YujSINMKSGiPx-4WNVBrmMMUPbFNaRhm5J62gqKfcfY"
-                ));
+            //return Ok(new Tigerspike.LandmarkRemark.Api.Model.LoginResult("username1", "test@email.com",
+            //    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cG4iOiJ1c2VybmFtZTEiLCJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwibmJmIjoxNTc2MDI3MDU5LCJleHAiOjE1NzY2MzE4NTksImlhdCI6MTU3NjAyNzA1OX0.YujSINMKSGiPx-4WNVBrmMMUPbFNaRhm5J62gqKfcfY"
+            //    ));
             var loggedInUser = userService.Login(new LoginInfo(loginInfo.Login, loginInfo.Password));
             if (loggedInUser == null)
             {
@@ -47,12 +47,20 @@ namespace Api.Controllers
         public IActionResult Get()
         {
             var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Upn).Value;
+            var user = userService.Get(username);
             return Ok(new Tigerspike.LandmarkRemark.Api.Model.RegistrationInfo
-            {
-                FirstName = "Mohsen",
-                Email = "Test@email.com",
-                Username = username
+            { 
+                FirstName = user.Firstname,
+                LastName = user.Lastname,
+                Email = user.Email,
+                Username = user.Username
             });
+            //return Ok(new Tigerspike.LandmarkRemark.Api.Model.RegistrationInfo
+            //{
+            //    FirstName = "Mohsen",
+            //    Email = "Test@email.com",
+            //    Username = username
+            //});
         }
 
         [Authorize]

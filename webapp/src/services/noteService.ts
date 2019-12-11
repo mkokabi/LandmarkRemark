@@ -24,7 +24,7 @@ export const noteService = {
     };
 
     return fetch(
-      `${process.env.REACT_APP_BACKEND_API_URL}/api/Notes?x=-122.13&y=47.68`,
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/Notes?x=-122.12&y=47.67`,
       requestOptions
     )
       .then(handleResponse)

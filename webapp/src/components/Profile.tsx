@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { LoginState } from "../store";
 import { userService } from "../services/userService";
 import { userActions } from "../store/actions";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
 
 const Profile = (loginResults: LoginState) => {
   const useProfileForm = (callback: any) => {
@@ -44,38 +45,48 @@ const Profile = (loginResults: LoginState) => {
     updateCallback
   );
 
+  const [modal, setModal] = useState(true);
+  const toggle = () => setModal(!modal);
+
+  const closeBtn = <button className="close" onClick={toggle}>&times;</button>;
+
   return (
     <>
-      <h2>Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <div className="form-group">
-            <label>First name</label>
-            <input
-              type="text"
-              name="firstName"
-              required
-              onChange={handleInputChange}
-              value={profile.firstName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Last name</label>
-            <input
-              type="text"
-              name="lastName"
-              required
-              onChange={handleInputChange}
-              value={profile.lastName}
-            />
-          </div>
-        </div>
-        <button type="submit">Save</button>
-      </form>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle} close={closeBtn}>
+          Profile
+        </ModalHeader>
+        <ModalBody>
+          <h2>Profile</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <div className="form-group">
+                <label>First name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  required
+                  onChange={handleInputChange}
+                  value={profile.firstName}
+                />
+              </div>
+              <div className="form-group">
+                <label>Last name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  required
+                  onChange={handleInputChange}
+                  value={profile.lastName}
+                />
+              </div>
+            </div>
+            <button type="submit">Save</button>
+          </form>
+        </ModalBody>
+      </Modal>
     </>
   );
 };
 
-export default connect((state: any) => {
-  return { loginResults: state.LoginResults };
-})(Profile as any);
+export default Profile;

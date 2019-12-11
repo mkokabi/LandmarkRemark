@@ -13,7 +13,6 @@ const App: React.FC = () => {
           <Route exact path="/" component={Home} />
           <Route path="/Login" component={Login} />
           <Route path="/Profile" component={Profile} />
-          {/* <Route path="/Client" component={Job} /> */}
         </Layout>
     </div>
   );

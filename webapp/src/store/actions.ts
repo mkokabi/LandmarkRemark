@@ -51,7 +51,7 @@ export const userActions = {
     userService.login(username, password).then(
       user => {
         dispatch({ type: "LOGIN_SUCCESS", userInfo: user });
-        history.push("/");
+        history.push('/');
       },
       error => {
         dispatch({ type: "LOGIN_FAILED" });

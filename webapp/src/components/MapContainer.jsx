@@ -20,6 +20,16 @@ class MapContainer extends React.Component {
       showingInfoWindow: true
     });
 
+  onMapClicked = (props, map, e) => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
+    }
+    this.props.onMapClicked(e.latLng.lat(), e.latLng.lat());
+  };
+
   render() {
     return (
       <Map
@@ -27,6 +37,7 @@ class MapContainer extends React.Component {
         zoom={8}
         style={mapStyles}
         initialCenter={{ lat: 47.444, lng: -122.176 }}
+        onClick={this.onMapClicked}
       >
         {this.props.children}
       </Map>

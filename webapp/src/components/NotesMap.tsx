@@ -13,6 +13,10 @@ const NotesMap = (loginResults: LoginState) => {
     noteService.getNotes().then(_notes => setNotes(_notes));
   }, []);
 
+  const onMapClicked = (x: number, y: number) => {
+    alert("Map clicked on x:" + x + " y: " + y);
+  }
+
   return (
     <div>
       <h2>Notes</h2>
@@ -30,7 +34,7 @@ const NotesMap = (loginResults: LoginState) => {
           </Row>
         ))}
       </Container>
-      <MapContainer>
+      <MapContainer onMapClicked={onMapClicked}>
         {notes.map((note: INote) => (
           <Marker
             key={note.id}

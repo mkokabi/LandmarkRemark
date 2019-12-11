@@ -3,6 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { LoginState } from "../store";
 import { noteService, INote } from "../services/noteService";
+import { Link } from "react-router-dom";
 
 const NotesMap = (loginResults: LoginState) => {
   const [notes, setNotes] = useState([] as INote[]);
@@ -15,11 +16,14 @@ const NotesMap = (loginResults: LoginState) => {
       {loginResults.IsLoggedIn}
       <Container>
         {notes.map((note: INote) => (
-          <Row>
+          <Row key={note.id}>
             <Col sm={{ size: 3, offset: 2 }}>Note: {note.body}</Col>
             <Col sm={{ size: 2 }}>Username: {note.name}</Col>
             <Col sm={{ size: 1 }}>x: {note.x}</Col>
             <Col sm={{ size: 1 }}>y: {note.y}</Col>
+            <Col sm={{ size: 1 }}>
+              <Link to={`/TakeNote/${note.id}`}>{note.id}</Link>
+            </Col>
           </Row>
         ))}
       </Container>

@@ -28,3 +28,25 @@ export const reducer: Reducer<LoginState> = (
       return state;
   }
 };
+
+export const updateProfileReducer: Reducer = (
+  state: LoginState | undefined,
+  incomingAction: Action
+) : LoginState => {
+  const action = incomingAction as KnownAction;
+  switch (action.type) {
+    case "UPDATE_PROFILE_SUCCESS":
+      return {
+        UserInfo: { firstName: action.firstname, lastName: action.lastname, token: "" },
+        IsLoggedIn: true
+      };
+    case "UPDATE_PROFILE_FAILED":
+      return {
+        IsLoggedIn: true
+      };
+    default:
+      return {
+        IsLoggedIn: true
+      };
+  }
+};

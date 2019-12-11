@@ -16,15 +16,14 @@ export const userService = {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ login: username, password })
     };
-
     return fetch(
-      `${process.env.REACT_APP_SECURITY_BACKEND_API_URL}/Auth/Login`,
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/User/Login`,
       requestOptions
     )
       .then(handleResponse)
-      .then((user: { firstName: any; lastName: any; token: any }) => {
+      .then((user: IUserInfo) => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem("user", JSON.stringify(user));
 
@@ -36,27 +35,55 @@ export const userService = {
       });
   },
 
-  getProfile(username: string): Promise<IUserInfo> {
+  getProfile(): Promise<IUserInfo> {
+    var localStoredUser = localStorage.getItem("user");
+    if (localStoredUser == null) {
+      return Promise.reject("Not logged in");
+    }
+    var user = JSON.parse(localStoredUser);
     const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username })
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user.token
+      }
     };
 
     return fetch(
-      `${process.env.REACT_APP_SECURITY_BACKEND_API_URL}/Auth/Login`,
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/User`,
       requestOptions
     )
       .then(handleResponse)
       .then((user: { firstName: any; lastName: any; token: any }) => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem("user", JSON.stringify(user));
-
         return {
           firstName: user.firstName,
-          lastName: user.lastName,
-          token: user.token
+          lastName: user.lastName
         } as IUserInfo;
+      });
+  },
+
+  updateProfile(firstname: string, lastname: string): Promise<number> {
+    var localStoredUser = localStorage.getItem("user");
+    if (localStoredUser == null) {
+      return Promise.reject("Not logged in");
+    }
+    var user = JSON.parse(localStoredUser);
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user.token
+      },
+      body: JSON.stringify({ firstName: firstname, lastName: lastname })
+    };
+
+    return fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/User`,
+      requestOptions
+    )
+      .then(handleResponse)
+      .then(() => {
+        return 1;
       });
   }
 };

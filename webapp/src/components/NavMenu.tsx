@@ -20,7 +20,7 @@ const NavMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="App-header">
+    <header>
       <Navbar
         className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3"
         light

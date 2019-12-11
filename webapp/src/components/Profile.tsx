@@ -1,32 +1,81 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "reactstrap";
+import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { LoginState } from "../store";
-import { userService, IUserInfo } from "../services/userService";
+import { userService } from "../services/userService";
+import { userActions } from "../store/actions";
 
 const Profile = (loginResults: LoginState) => {
-  const [profile, setProfile] = useState({} as IUserInfo);
-  useEffect(() => {
-    userService.getProfile("username").then(_profile => setProfile(_profile));
-  }, []);
+  const useProfileForm = (callback: any) => {
+    const [profile, setProfile] = useState({
+      firstName: "",
+      lastName: ""
+    });
+    useEffect(() => {
+      userService.getProfile().then(_profile => setProfile(_profile));
+    }, []);
+    const handleSubmit = (event: any) => {
+      if (event) {
+        event.preventDefault();
+      }
+      callback();
+    };
+    const handleInputChange = (event: any) => {
+      event.persist();
+      setProfile(inputs => ({
+        ...inputs,
+        [event.target.name]: event.target.value
+      }));
+    };
+    return {
+      handleSubmit,
+      handleInputChange,
+      profile
+    };
+  };
+
+  const dispatch = useDispatch();
+
+  const updateCallback = () => {
+    dispatch(userActions.updateProfile(profile.firstName, profile.lastName));
+  };
+
+  const { profile, handleInputChange, handleSubmit } = useProfileForm(
+    updateCallback
+  );
+
   return (
-    <div>
-      <h2>Jobs</h2>
-      {loginResults.IsLoggedIn}
-      <Container>
-        {/* {jobs.map((job: IJobInfo) => (
-          <Row>
-            <Col sm={{ size: 2, offset: 3 }}>Id: {job.jobId}</Col>
-            <Col sm={{ size: 2 }}>Code: {job.jobCode}</Col>
-            <Col sm={{ size: 3 }}>Description: {job.description}</Col>
-          </Row>
-        ))} */}
-      </Container>
-    </div>
+    <>
+      <h2>Profile</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <div className="form-group">
+            <label>First name</label>
+            <input
+              type="text"
+              name="firstName"
+              required
+              onChange={handleInputChange}
+              value={profile.firstName}
+            />
+          </div>
+          <div className="form-group">
+            <label>Last name</label>
+            <input
+              type="text"
+              name="lastName"
+              required
+              onChange={handleInputChange}
+              value={profile.lastName}
+            />
+          </div>
+        </div>
+        <button type="submit">Save</button>
+      </form>
+    </>
   );
 };
 
-// export default Job;
 export default connect((state: any) => {
   return { loginResults: state.LoginResults };
 })(Profile as any);

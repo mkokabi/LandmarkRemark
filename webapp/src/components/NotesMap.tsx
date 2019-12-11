@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import { LoginState } from "../store";
 import { noteService, INote } from "../services/noteService";
 import { Link } from "react-router-dom";
+import MapContainer from "./MapContainer";
+import { Marker } from "google-maps-react";
 
 const NotesMap = (loginResults: LoginState) => {
   const [notes, setNotes] = useState([] as INote[]);
   useEffect(() => {
     noteService.getNotes().then(_notes => setNotes(_notes));
   }, []);
+
   return (
     <div>
       <h2>Notes</h2>
@@ -27,6 +30,19 @@ const NotesMap = (loginResults: LoginState) => {
           </Row>
         ))}
       </Container>
+      <MapContainer>
+        {notes.map((note: INote) => (
+          <Marker
+            key={note.id}
+            id={note.id}
+            position={{
+              lat: note.y,
+              lng: note.x
+            }}
+            onClick={() => alert("Note " + note.body)}
+          />
+        ))}
+      </MapContainer>
     </div>
   );
 };

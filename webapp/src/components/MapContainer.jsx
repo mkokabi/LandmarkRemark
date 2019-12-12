@@ -27,7 +27,7 @@ class MapContainer extends React.Component {
         activeMarker: null
       });
     }
-    this.props.onMapClicked(e.latLng.lat(), e.latLng.lat());
+    this.props.onMapClicked(e.latLng.lng(), e.latLng.lat());
   };
 
   render() {

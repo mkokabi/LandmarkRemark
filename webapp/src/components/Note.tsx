@@ -5,17 +5,31 @@ import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { useParams, useHistory } from "react-router";
 import { noteService } from "../services/noteService";
 
-  const Note = () => {
-  let { id } = useParams();
+const Note = () => {
+  let { id, x, y } = useParams();
   const useNoteForm = (callback: any) => {
-    const [note, setNote] = useState({
+    const [note, setNote] = useState(id === "0" ? {
       body: "",
-      x: 0,
-      y: 0
+      x: x == null ? -20 : parseFloat(x),
+      y: y == null ? -20 : parseFloat(y)
+    } : {
+      body: "",
+      x: x == null ? -10 : parseFloat(x),
+      y: y == null ? -10 : parseFloat(y)
     });
-    useEffect(() => {
-      noteService.getNote(id ? parseInt(id) : 0).then(data => setNote(data));
-    }, []);
+    // const getOrCreateNote = () => {
+    //   if (id === "0") {
+    //     return {
+    //       body: "",
+    //       x: x == null ? -10 : parseFloat(x),
+    //       y: y == null ? -20 : parseFloat(y)
+    //     };
+    //   }
+    //   noteService.getNote(id ? parseInt(id) : 0).then(data => setNote(data));
+    // };
+    // useEffect(() => {
+    //   noteService.getNote(id ? parseInt(id) : 0).then(data => setNote(data));
+    // }, []);
     const handleSubmit = (event: any) => {
       if (event) {
         event.preventDefault();
@@ -55,8 +69,8 @@ import { noteService } from "../services/noteService";
   const close = () => {
     history.push("/");
 
-    setModal(false)
-  }
+    setModal(false);
+  };
 
   const closeBtn = (
     <button className="close" onClick={close}>
@@ -67,9 +81,7 @@ import { noteService } from "../services/noteService";
   return (
     <>
       <Modal isOpen={modal}>
-        <ModalHeader close={closeBtn}>
-          Note
-        </ModalHeader>
+        <ModalHeader close={closeBtn}>Note</ModalHeader>
         <ModalBody>
           <h2>Note ({id})</h2>
           <form onSubmit={handleSubmit}>
@@ -114,4 +126,3 @@ import { noteService } from "../services/noteService";
 };
 
 export default Note;
-

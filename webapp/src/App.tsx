@@ -14,7 +14,7 @@ const App: React.FC = () => {
           <Route exact path="/" component={Home} />
           <Route path="/Login" component={Login} />
           <Route path="/Profile" component={Profile} />
-          <Route path="/TakeNote/:id" component={Note} />
+          <Route path="/Note/:id/:x?/:y?" component={Note} />
         </Layout>
     </div>
   );

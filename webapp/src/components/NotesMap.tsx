@@ -16,7 +16,7 @@ const NotesMap = (loginResults: LoginState) => {
   }, []);
 
   const onMapClicked = (x: number, y: number) => {
-    alert("Map clicked on x:" + x + " y: " + y);
+    history.push(`/Note/0/${x}/${y}`);
   };
 
   const NotesGrid = () => (
@@ -57,7 +57,7 @@ const NotesMap = (loginResults: LoginState) => {
               lng: note.x
             }}
             onClick={() => // alert("Note " + note.body)
-            history.push(`/TakeNote/${note.id}`)
+            history.push(`/Note/${note.id}`)
           }
           />
         ))}

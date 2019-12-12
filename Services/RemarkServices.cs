@@ -39,6 +39,29 @@ namespace Tigerspike.LandmarkRemark.Services
             return note.Id;
         }
 
+        public Note GetNoteById(int id)
+        {
+            var nu = dbContext.Notes
+               .Join(dbContext.Users, n => n.Owner.Id, u => u.Id, (n, u) => new { n, u })
+               .FirstOrDefault(n => n.n.Id == id);
+            if (nu == null)
+            {
+                throw new NoteNotFoundException($"Note with {id} not found.");
+            }
+            return new Note
+            {
+                Id = nu.n.Id,
+                Owner = new UserInfo
+                {
+                    Username = nu.u.Username,
+                    Firstname = nu.u.Firstname,
+                    Lastname = nu.u.Lastname
+                },
+                Body = nu.n.Body,
+                Location = GeometryPoint.Create(nu.n.Location.Coordinate.X, nu.n.Location.Coordinate.Y)
+            };
+        }
+
         public IEnumerable<Note> GetNotesByLocation(Geometry location, int userId = 0)
         {
             var point = location as GeometryPoint;

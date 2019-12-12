@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { LoginState } from "../store";
-// import { noteService } from "../services/noteService";
 import { noteActions } from "../store/actions";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import { useParams, useHistory } from "react-router";
+import { noteService } from "../services/noteService";
 
-const Note = (loginResults: LoginState) => {
+  const Note = () => {
+  let { id } = useParams();
   const useNoteForm = (callback: any) => {
     const [note, setNote] = useState({
       body: "",
       x: 0,
       y: 0
     });
-    // useEffect(() => {
-    //   noteService.takeNote(note.x, note.y, note.body);
-    // }, []);
+    useEffect(() => {
+      noteService.getNote(id ? parseInt(id) : 0).then(data => setNote(data));
+    }, []);
     const handleSubmit = (event: any) => {
       if (event) {
         event.preventDefault();
@@ -48,23 +49,29 @@ const Note = (loginResults: LoginState) => {
     updateCallback
   );
 
+  let history = useHistory();
+
   const [modal, setModal] = useState(true);
-  const toggle = () => setModal(!modal);
+  const close = () => {
+    history.push("/");
+
+    setModal(false)
+  }
 
   const closeBtn = (
-    <button className="close" onClick={toggle}>
+    <button className="close" onClick={close}>
       &times;
     </button>
   );
 
   return (
     <>
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle} close={closeBtn}>
+      <Modal isOpen={modal}>
+        <ModalHeader close={closeBtn}>
           Note
         </ModalHeader>
         <ModalBody>
-          <h2>Note</h2>
+          <h2>Note ({id})</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <div className="form-group">
@@ -107,3 +114,4 @@ const Note = (loginResults: LoginState) => {
 };
 
 export default Note;
+

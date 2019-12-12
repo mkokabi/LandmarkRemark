@@ -10,16 +10,10 @@ export interface INote {
 
 export const noteService = {
   getNotes(): Promise<INote[]> {
-    var localStoredUser = localStorage.getItem("user");
-    if (localStoredUser == null) {
-      return Promise.reject("Not logged in");
-    }
-    var user = JSON.parse(localStoredUser);
     const requestOptions = {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.token
+        "Content-Type": "application/json"
       }
     };
 
@@ -30,6 +24,24 @@ export const noteService = {
       .then(handleResponse)
       .then((notes: INote[]) => {
         return notes;
+      });
+  },
+
+  getNote(id: number): Promise<INote> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    return fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/Notes/${id}`,
+      requestOptions
+    )
+      .then(handleResponse)
+      .then((note: INote) => {
+        return note;
       });
   },
 

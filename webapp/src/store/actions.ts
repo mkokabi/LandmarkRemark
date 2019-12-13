@@ -77,6 +77,7 @@ interface TakeNoteCloseAction {
 
 interface TakeNoteSubmittedAction {
   type: "TAKE_NOTE_SUBMITTED_ACTION";
+  id: number;
   x: number;
   y: number;
   body: string;
@@ -133,17 +134,15 @@ export const noteActions = {
       id: id,
       isNoteModalOpen: true
     });
-    noteService
-      .getNote(id)
-      .then(data =>
-        dispatch({
-          type: "NOTE_LOADED_ACTION",
-          id,
-          x: data.x,
-          y: data.y,
-          body: data.body
-        })
-      );
+    noteService.getNote(id).then(data =>
+      dispatch({
+        type: "NOTE_LOADED_ACTION",
+        id,
+        x: data.x,
+        y: data.y,
+        body: data.body
+      })
+    );
   },
   takeNoteClicked: (
     x: number,
@@ -152,20 +151,32 @@ export const noteActions = {
     dispatch({ type: "TAKE_NOTE_CLICKED_ACTION", x, y, isNoteModalOpen: true });
   },
   takeNote: (
+    id: number,
     x: number,
     y: number,
     body: string
   ): AppThunkAction<KnownAction> => dispatch => {
-    dispatch({ type: "TAKE_NOTE_SUBMITTED_ACTION", x, y, body });
-
-    noteService.takeNote(x, y, body).then(
-      () => {
-        dispatch({ type: "TAKE_NOTE_SUCCESS" });
-        history.push("/");
-      },
-      error => {
-        dispatch({ type: "TAKE_NOTE_FAILED" });
-      }
-    );
+    dispatch({ type: "TAKE_NOTE_SUBMITTED_ACTION", id, x, y, body });
+    if (id === 0) {
+      noteService.takeNote(x, y, body).then(
+        () => {
+          dispatch({ type: "TAKE_NOTE_SUCCESS" });
+          history.push("/");
+        },
+        error => {
+          dispatch({ type: "TAKE_NOTE_FAILED" });
+        }
+      );
+    } else {
+      noteService.updateNote(id, x, y, body).then(
+        () => {
+          dispatch({ type: "TAKE_NOTE_SUCCESS" });
+          history.push("/");
+        },
+        error => {
+          dispatch({ type: "TAKE_NOTE_FAILED" });
+        }
+      );
+    }
   }
 };

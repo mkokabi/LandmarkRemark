@@ -68,5 +68,30 @@ export const noteService = {
       .then(() => {
         return 1;
       });
+  },
+
+  updateNote(id: number, x: number, y: number, body: string): Promise<number> {
+    var localStoredUser = localStorage.getItem("user");
+    if (localStoredUser == null) {
+      return Promise.reject("Not logged in");
+    }
+    var user = JSON.parse(localStoredUser);
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user.token
+      },
+      body: JSON.stringify({ id, x, y, body })
+    };
+
+    return fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/Notes`,
+      requestOptions
+    )
+      .then(handleResponse)
+      .then(() => {
+        return 1;
+      });
   }
 };

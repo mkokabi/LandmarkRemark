@@ -36,5 +36,6 @@ namespace Tigerspike.LandmarkRemark.Common
         /// <param name="text">The note text.</param>
         /// <returns></returns>
         int CreateNote(string username, Geometry location, string text);
+        void UpdateNote(string username, int id, GeometryPoint geometryPoint, string body);
     }
 }

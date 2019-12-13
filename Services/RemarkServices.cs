@@ -16,7 +16,6 @@ namespace Tigerspike.LandmarkRemark.Services
             this.dbContext = dbContext;
         }
 
-
         public int CreateNote(string username, Geometry location, string text)
         {
             var user = dbContext.Users.FirstOrDefault(u => u.Username == username);
@@ -37,6 +36,31 @@ namespace Tigerspike.LandmarkRemark.Services
             dbContext.Notes.Add(note);
             dbContext.SaveChanges();
             return note.Id;
+        }
+
+        public void UpdateNote(string username, int id, GeometryPoint geometryPoint, string body)
+        {
+            var user = dbContext.Users.FirstOrDefault(u => u.Username == username);
+            if (user == null)
+            {
+                throw new UserNotFoundException($"{username} not found.");
+            }
+            var note = dbContext.Notes
+                .FirstOrDefault(n => n.Id == id);
+            if (note == null)
+            {
+                throw new NoteNotFoundException($"Note with {id} not found.");
+            }
+            if (note.Owner.Id != id)
+            {
+                throw new System.InvalidOperationException("Only note creator can change the note");
+            }
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var point = geometryPoint as GeometryPoint;
+            var geoPoint = geometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(point.X, point.Y));
+            note.Location = geoPoint;
+            note.Body = body;
+            dbContext.SaveChanges();
         }
 
         public Note GetNoteById(int id)

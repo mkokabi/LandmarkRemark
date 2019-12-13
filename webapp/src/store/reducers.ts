@@ -86,7 +86,7 @@ export const noteReducer: Reducer<NoteState> = (
           y: 0,
           body: ""
         }
-      }
+      };
     case "NOTE_LOADED_ACTION":
       return {
         IsNoteModalOpen: true,
@@ -95,8 +95,8 @@ export const noteReducer: Reducer<NoteState> = (
           x: action.x,
           y: action.y,
           body: action.body
-        }      
-      }
+        }
+      };
     case "TAKE_NOTE_CLOSE_ACTION":
       return {
         IsNoteModalOpen: false

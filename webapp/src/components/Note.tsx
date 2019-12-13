@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import { noteActions } from "../store/actions";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { NoteState } from "../store";
@@ -7,7 +7,11 @@ import { NoteState } from "../store";
 const Note = (props: NoteState) => {
   const useNoteForm = (callback: any) => {
     useEffect(() => {
-      setNote( {body: props.CurrentNote ? props.CurrentNote.body : "", x: 0, y: 0} );
+      setNote({
+        body: props.CurrentNote ? props.CurrentNote.body : "",
+        x: 0,
+        y: 0
+      });
     }, []);
     const [note, setNote] = useState({
       body: "",
@@ -40,7 +44,14 @@ const Note = (props: NoteState) => {
   const dispatch = useDispatch();
 
   const updateCallback = () => {
-    dispatch(noteActions.takeNote(note.x, note.y, note.body));
+    dispatch(
+      noteActions.takeNote(
+        props && props.CurrentNote ? props.CurrentNote.id : 0,
+        note.x,
+        note.y,
+        note.body
+      )
+    );
   };
 
   const { Note: note, handleInputChange, handleSubmit } = useNoteForm(
@@ -59,10 +70,10 @@ const Note = (props: NoteState) => {
 
   return (
     <>
-      <Modal isOpen={props.IsNoteModalOpen}>
+      <Modal isOpen={props && props.IsNoteModalOpen}>
         <ModalHeader close={closeBtn}>Note</ModalHeader>
         <ModalBody>
-          <h2>Note ({props.CurrentNote && props.CurrentNote.id})</h2>
+          <h2>Note ({props && props.CurrentNote && props.CurrentNote.id})</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <div className="form-group">
@@ -72,7 +83,7 @@ const Note = (props: NoteState) => {
                   name="x"
                   required
                   onChange={handleInputChange}
-                  value={props.CurrentNote ? props.CurrentNote.x : 0}
+                  value={props && props.CurrentNote ? props.CurrentNote.x : 0}
                 />
               </div>
               <div className="form-group">
@@ -82,7 +93,7 @@ const Note = (props: NoteState) => {
                   name="y"
                   required
                   onChange={handleInputChange}
-                  value={props.CurrentNote ? props.CurrentNote.y : 0}
+                  value={props && props.CurrentNote ? props.CurrentNote.y : 0}
                 />
               </div>
               <div className="form-group">
@@ -92,7 +103,7 @@ const Note = (props: NoteState) => {
                   name="body"
                   required
                   onChange={handleInputChange}
-                  // value={props.CurrentNote? props.CurrentNote.body : ""}
+                  // value={props && props.CurrentNote? props.CurrentNote.body : ""}
                   value={note.body}
                 />
               </div>
@@ -105,4 +116,7 @@ const Note = (props: NoteState) => {
   );
 };
 
-export default Note;
+// export default Note;
+export default connect((state: any) => {
+  return state.Notes;
+})(Note as any);

@@ -1,35 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { noteActions } from "../store/actions";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
-import { useParams, useHistory } from "react-router";
-import { noteService } from "../services/noteService";
+import { useParams } from "react-router";
 
-const Note = () => {
-  let { id, x, y } = useParams();
+export interface NoteModal {
+  IsOpen: boolean;
+}
+const Note = (props: NoteModal) => {
+  let { id } = useParams();
+  // const noteSate: NoteState = useSelector(
+  //   (state: ApplicationState) => state.noteState
+  // );
   const useNoteForm = (callback: any) => {
-    const [note, setNote] = useState(id === "0" ? {
+    const [note, setNote] = useState({
       body: "",
-      x: x == null ? -20 : parseFloat(x),
-      y: y == null ? -20 : parseFloat(y)
-    } : {
-      body: "",
-      x: x == null ? -10 : parseFloat(x),
-      y: y == null ? -10 : parseFloat(y)
+      x: 0,
+      y: 0
     });
-    // const getOrCreateNote = () => {
-    //   if (id === "0") {
-    //     return {
-    //       body: "",
-    //       x: x == null ? -10 : parseFloat(x),
-    //       y: y == null ? -20 : parseFloat(y)
-    //     };
-    //   }
-    //   noteService.getNote(id ? parseInt(id) : 0).then(data => setNote(data));
-    // };
-    // useEffect(() => {
-    //   noteService.getNote(id ? parseInt(id) : 0).then(data => setNote(data));
-    // }, []);
     const handleSubmit = (event: any) => {
       if (event) {
         event.preventDefault();
@@ -63,13 +51,9 @@ const Note = () => {
     updateCallback
   );
 
-  let history = useHistory();
-
-  const [modal, setModal] = useState(true);
+  // const [modal, setModal] = useState(props.IsOpen);
   const close = () => {
-    history.push("/");
-
-    setModal(false);
+    dispatch({ type: "TAKE_NOTE_CLOSE_ACTION", isNoteModalOpen: false });
   };
 
   const closeBtn = (
@@ -80,7 +64,7 @@ const Note = () => {
 
   return (
     <>
-      <Modal isOpen={modal}>
+      <Modal isOpen={props.IsOpen}>
         <ModalHeader close={closeBtn}>Note</ModalHeader>
         <ModalBody>
           <h2>Note ({id})</h2>
@@ -126,3 +110,6 @@ const Note = () => {
 };
 
 export default Note;
+// export default connect((state: any) => {
+//   return { loginResults: state.LoginResults };
+// })(Note as any);

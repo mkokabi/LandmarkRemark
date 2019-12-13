@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
-import { connect } from "react-redux";
-import { LoginState } from "../store";
+import { connect, useDispatch } from "react-redux";
+import { NoteState } from "../store";
 import { noteService, INote } from "../services/noteService";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Switch } from "react-router-dom";
 import MapContainer from "./MapContainer";
 import { Marker } from "google-maps-react";
 import Note from "./Note";
 import { useHistory } from "react-router-dom";
 
-const NotesMap = (loginResults: LoginState) => {
+const NotesMap = (noteState: NoteState) => {
   const [notes, setNotes] = useState([] as INote[]);
   useEffect(() => {
     noteService.getNotes().then(_notes => setNotes(_notes));
   }, []);
 
+  const dispatch = useDispatch();
+
   const onMapClicked = (x: number, y: number) => {
-    history.push(`/Note/0/${x}/${y}`);
+    dispatch({ type: "TAKE_NOTE_CLICKED_ACTION", x, y, isNoteModalOpen: true });
   };
 
   const NotesGrid = () => (
@@ -33,9 +35,7 @@ const NotesMap = (loginResults: LoginState) => {
             </Col>
           </Row>
         ))}
-        <Switch>
-          <Route path="/:id" children={<Note />} />
-        </Switch>
+        <Switch>{/* <Route path="/:id" children={<Note />} /> */}</Switch>
       </Router>
     </Container>
   );
@@ -45,7 +45,6 @@ const NotesMap = (loginResults: LoginState) => {
   return (
     <div>
       <h2>Notes</h2>
-      {loginResults.IsLoggedIn}
       <NotesGrid></NotesGrid>
       <MapContainer onMapClicked={onMapClicked}>
         {notes.map((note: INote) => (
@@ -56,16 +55,15 @@ const NotesMap = (loginResults: LoginState) => {
               lat: note.y,
               lng: note.x
             }}
-            onClick={() => // alert("Note " + note.body)
-            history.push(`/Note/${note.id}`)
-          }
+            onClick={() => history.push(`/Note/${note.id}`)}
           />
         ))}
       </MapContainer>
+      <Note IsOpen={noteState && noteState.IsNoteModalOpen} ></Note>
     </div>
   );
 };
 
 export default connect((state: any) => {
-  return { loginResults: state.LoginResults };
+  return state.Notes;
 })(NotesMap as any);

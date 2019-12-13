@@ -1,10 +1,10 @@
 import { handleResponse } from "./helpers";
 
 export interface INote {
-  id: number,
-  x: number,
-  y: number,
-  name: string;
+  id: number;
+  x: number;
+  y: number;
+  name?: string;
   body: string;
 }
 

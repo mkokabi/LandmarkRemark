@@ -59,7 +59,11 @@ const NotesMap = (noteState: NoteState) => {
           />
         ))}
       </MapContainer>
-      <Note IsOpen={noteState && noteState.IsNoteModalOpen} ></Note>
+      <Note
+        IsOpen={noteState && noteState.IsNoteModalOpen}
+        x={noteState && noteState.CurrentNote && noteState.CurrentNote.x}
+        y={noteState && noteState.CurrentNote && noteState.CurrentNote.y}
+      ></Note>
     </div>
   );
 };

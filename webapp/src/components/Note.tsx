@@ -6,6 +6,8 @@ import { useParams } from "react-router";
 
 export interface NoteModal {
   IsOpen: boolean;
+  x: number;
+  y: number;
 }
 const Note = (props: NoteModal) => {
   let { id } = useParams();
@@ -77,7 +79,7 @@ const Note = (props: NoteModal) => {
                   name="x"
                   required
                   onChange={handleInputChange}
-                  value={note.x}
+                  value={props.x}
                 />
               </div>
               <div className="form-group">
@@ -87,7 +89,7 @@ const Note = (props: NoteModal) => {
                   name="y"
                   required
                   onChange={handleInputChange}
-                  value={note.y}
+                  value={props.y}
                 />
               </div>
               <div className="form-group">

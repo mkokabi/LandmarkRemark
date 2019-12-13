@@ -79,7 +79,13 @@ export const noteReducer: Reducer<NoteState> = (
       };
     case "TAKE_NOTE_CLOSE_ACTION":
       return {
-        IsNoteModalOpen: false
+        IsNoteModalOpen: false,
+        CurrentNote: {
+          id: 0,
+          x: 0,
+          y: 0,
+          body: ""
+        }
       };
     default:
       return state;

@@ -2,18 +2,9 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { noteActions } from "../store/actions";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
-import { useParams } from "react-router";
+import { NoteState } from "../store";
 
-export interface NoteModal {
-  IsOpen: boolean;
-  x: number;
-  y: number;
-}
-const Note = (props: NoteModal) => {
-  let { id } = useParams();
-  // const noteSate: NoteState = useSelector(
-  //   (state: ApplicationState) => state.noteState
-  // );
+const Note = (props: NoteState) => {
   const useNoteForm = (callback: any) => {
     const [note, setNote] = useState({
       body: "",
@@ -53,7 +44,6 @@ const Note = (props: NoteModal) => {
     updateCallback
   );
 
-  // const [modal, setModal] = useState(props.IsOpen);
   const close = () => {
     dispatch({ type: "TAKE_NOTE_CLOSE_ACTION", isNoteModalOpen: false });
   };
@@ -66,10 +56,10 @@ const Note = (props: NoteModal) => {
 
   return (
     <>
-      <Modal isOpen={props.IsOpen}>
+      <Modal isOpen={props.IsNoteModalOpen}>
         <ModalHeader close={closeBtn}>Note</ModalHeader>
         <ModalBody>
-          <h2>Note ({id})</h2>
+          <h2>Note ({props.CurrentNote &&  props.CurrentNote.id})</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <div className="form-group">
@@ -79,7 +69,7 @@ const Note = (props: NoteModal) => {
                   name="x"
                   required
                   onChange={handleInputChange}
-                  value={props.x}
+                  value={props.CurrentNote ? props.CurrentNote.x : 0}
                 />
               </div>
               <div className="form-group">
@@ -89,7 +79,7 @@ const Note = (props: NoteModal) => {
                   name="y"
                   required
                   onChange={handleInputChange}
-                  value={props.y}
+                  value={props.CurrentNote? props.CurrentNote.y : 0}
                 />
               </div>
               <div className="form-group">
@@ -99,7 +89,7 @@ const Note = (props: NoteModal) => {
                   name="body"
                   required
                   onChange={handleInputChange}
-                  value={note.body}
+                  value={props.CurrentNote? props.CurrentNote.body : ""}
                 />
               </div>
             </div>
@@ -112,6 +102,3 @@ const Note = (props: NoteModal) => {
 };
 
 export default Note;
-// export default connect((state: any) => {
-//   return { loginResults: state.LoginResults };
-// })(Note as any);

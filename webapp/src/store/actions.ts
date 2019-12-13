@@ -11,6 +11,8 @@ export type KnownAction =
   | UpdateProfileSuccessAction
   | UpdateprofileFailedAction
   | TakeNoteClickedAction
+  | NoteClickedAction
+  | NoteLoadedAction
   | TakeNoteCloseAction
   | TakeNoteSubmittedAction
   | TakeNoteSuccessAction
@@ -52,6 +54,20 @@ interface TakeNoteClickedAction {
   x: number;
   y: number;
   isNoteModalOpen: boolean;
+}
+
+interface NoteClickedAction {
+  type: "NOTE_CLICKED_ACTION";
+  id: number;
+  isNoteModalOpen: boolean;
+}
+
+interface NoteLoadedAction {
+  type: "NOTE_LOADED_ACTION";
+  id: number;
+  x: number;
+  y: number;
+  body: string;
 }
 
 interface TakeNoteCloseAction {
@@ -111,6 +127,24 @@ export const userActions = {
 };
 
 export const noteActions = {
+  noteClicked: (id: number): AppThunkAction<KnownAction> => dispatch => {
+    dispatch({
+      type: "NOTE_CLICKED_ACTION",
+      id: id,
+      isNoteModalOpen: true
+    });
+    noteService
+      .getNote(id)
+      .then(data =>
+        dispatch({
+          type: "NOTE_LOADED_ACTION",
+          id,
+          x: data.x,
+          y: data.y,
+          body: data.body
+        })
+      );
+  },
   takeNoteClicked: (
     x: number,
     y: number

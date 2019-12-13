@@ -9,7 +9,7 @@ export interface LoginState {
 
 export interface NoteState {
   IsNoteModalOpen: boolean;
-  CurrentNote: INote;
+  CurrentNote?: INote;
 }
 
 // The top-level state object

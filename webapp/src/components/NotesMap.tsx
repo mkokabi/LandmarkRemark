@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import { NoteState } from "../store";
 import { noteService, INote } from "../services/noteService";
-import { BrowserRouter as Router, Link, Switch } from "react-router-dom";
 import MapContainer from "./MapContainer";
 import { Marker } from "google-maps-react";
 import Note from "./Note";
-import { useHistory } from "react-router-dom";
+import { noteActions } from "../store/actions";
 
 const NotesMap = (noteState: NoteState) => {
   const [notes, setNotes] = useState([] as INote[]);
@@ -23,24 +22,24 @@ const NotesMap = (noteState: NoteState) => {
 
   const NotesGrid = () => (
     <Container>
-      <Router>
-        {notes.map((note: INote) => (
-          <Row key={note.id}>
-            <Col sm={{ size: 3, offset: 2 }}>Note: {note.body}</Col>
-            <Col sm={{ size: 2 }}>Username: {note.name}</Col>
-            <Col sm={{ size: 1 }}>x: {note.x}</Col>
-            <Col sm={{ size: 1 }}>y: {note.y}</Col>
-            <Col sm={{ size: 1 }}>
-              <Link to={`/${note.id}`}>{note.id}</Link>
-            </Col>
-          </Row>
-        ))}
-        <Switch>{/* <Route path="/:id" children={<Note />} /> */}</Switch>
-      </Router>
+      {notes.map((note: INote) => (
+        <Row key={note.id}>
+          <Col sm={{ size: 3, offset: 2 }}>Note: {note.body}</Col>
+          <Col sm={{ size: 2 }}>Username: {note.name}</Col>
+          <Col sm={{ size: 1 }}>x: {note.x}</Col>
+          <Col sm={{ size: 1 }}>y: {note.y}</Col>
+          <Col sm={{ size: 1 }}>
+            <Button
+              color="link"
+              onClick={() => dispatch(noteActions.noteClicked(note.id))}
+            >
+              {note.id}
+            </Button>
+          </Col>
+        </Row>
+      ))}
     </Container>
   );
-
-  let history = useHistory();
 
   return (
     <div>
@@ -55,14 +54,13 @@ const NotesMap = (noteState: NoteState) => {
               lat: note.y,
               lng: note.x
             }}
-            onClick={() => history.push(`/Note/${note.id}`)}
+            onClick={() => dispatch(noteActions.noteClicked(note.id))}
           />
         ))}
       </MapContainer>
       <Note
-        IsOpen={noteState && noteState.IsNoteModalOpen}
-        x={noteState && noteState.CurrentNote && noteState.CurrentNote.x}
-        y={noteState && noteState.CurrentNote && noteState.CurrentNote.y}
+        IsNoteModalOpen={noteState && noteState.IsNoteModalOpen}
+        CurrentNote={noteState && noteState.CurrentNote}
       ></Note>
     </div>
   );

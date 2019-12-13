@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { noteActions } from "../store/actions";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
@@ -6,6 +6,9 @@ import { NoteState } from "../store";
 
 const Note = (props: NoteState) => {
   const useNoteForm = (callback: any) => {
+    useEffect(() => {
+      setNote( {body: props.CurrentNote ? props.CurrentNote.body : "", x: 0, y: 0} );
+    }, []);
     const [note, setNote] = useState({
       body: "",
       x: 0,
@@ -59,7 +62,7 @@ const Note = (props: NoteState) => {
       <Modal isOpen={props.IsNoteModalOpen}>
         <ModalHeader close={closeBtn}>Note</ModalHeader>
         <ModalBody>
-          <h2>Note ({props.CurrentNote &&  props.CurrentNote.id})</h2>
+          <h2>Note ({props.CurrentNote && props.CurrentNote.id})</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <div className="form-group">
@@ -79,7 +82,7 @@ const Note = (props: NoteState) => {
                   name="y"
                   required
                   onChange={handleInputChange}
-                  value={props.CurrentNote? props.CurrentNote.y : 0}
+                  value={props.CurrentNote ? props.CurrentNote.y : 0}
                 />
               </div>
               <div className="form-group">
@@ -89,7 +92,8 @@ const Note = (props: NoteState) => {
                   name="body"
                   required
                   onChange={handleInputChange}
-                  value={props.CurrentNote? props.CurrentNote.body : ""}
+                  // value={props.CurrentNote? props.CurrentNote.body : ""}
+                  value={note.body}
                 />
               </div>
             </div>

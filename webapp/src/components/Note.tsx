@@ -47,8 +47,8 @@ const Note = (props: NoteState) => {
     dispatch(
       noteActions.takeNote(
         props && props.CurrentNote ? props.CurrentNote.id : 0,
-        note.x,
-        note.y,
+        props && props.CurrentNote ? props.CurrentNote.x : 0,
+        props && props.CurrentNote ? props.CurrentNote.y : 0,
         note.body
       )
     );

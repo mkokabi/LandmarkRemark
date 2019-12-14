@@ -118,7 +118,10 @@ export const noteReducer: Reducer<NoteState> = (
               ...state.Notes,
               { id: action.id, x: action.x, y: action.y, body: action.body }
             ]
-          : state.Notes,
+          : [
+              ...state.Notes.filter(n => n.id === action.id),
+              { id: action.id, x: action.x, y: action.y, body: action.body }
+            ],
         IsNoteModalOpen: false
       };
     case "TAKE_NOTE_CLOSE_ACTION":

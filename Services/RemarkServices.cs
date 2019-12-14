@@ -51,7 +51,7 @@ namespace Tigerspike.LandmarkRemark.Services
             {
                 throw new NoteNotFoundException($"Note with {id} not found.");
             }
-            if (note.Owner.Id != id)
+            if (note.Owner.Id != user.Id)
             {
                 throw new System.InvalidOperationException("Only note creator can change the note");
             }

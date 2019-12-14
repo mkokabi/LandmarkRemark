@@ -1,7 +1,7 @@
 import { userService, IUserInfo } from "../services/userService";
 import { AppThunkAction } from ".";
 import { history } from "../.";
-import { noteService } from "../services/noteService";
+import { noteService, INote } from "../services/noteService";
 
 export type KnownAction =
   | LoginAction
@@ -10,6 +10,9 @@ export type KnownAction =
   | UpdateprofileAction
   | UpdateProfileSuccessAction
   | UpdateprofileFailedAction
+
+  | GetNotesAction
+  | GetNotesSuccessAction
   | TakeNoteClickedAction
   | NoteClickedAction
   | NoteLoadedAction
@@ -49,6 +52,18 @@ interface UpdateprofileFailedAction {
   type: "UPDATE_PROFILE_FAILED";
 }
 
+interface GetNotesAction {
+  type: "GET_NOTES_ACTION",
+  x: number,
+  y: number
+}
+
+interface GetNotesSuccessAction {
+  type: "GET_NOTE_SUCCESS_ACTION";
+  notes: INote[];
+
+}
+
 interface TakeNoteClickedAction {
   type: "TAKE_NOTE_CLICKED_ACTION";
   x: number;
@@ -85,6 +100,11 @@ interface TakeNoteSubmittedAction {
 
 interface TakeNoteSuccessAction {
   type: "TAKE_NOTE_SUCCESS";
+  added: boolean;
+  id: number;
+  x: number;
+  y: number;
+  body: string;
 }
 
 interface TakeNoteFailedAction {
@@ -128,6 +148,14 @@ export const userActions = {
 };
 
 export const noteActions = {
+  GetNotesAction: (x: number, y: number): AppThunkAction<KnownAction> => dispatch => {
+    dispatch({type: "GET_NOTES_ACTION", x, y});
+    noteService.getNotes(x, y).then(data =>
+      dispatch({
+        type: "GET_NOTE_SUCCESS_ACTION",
+        notes: data
+      }))
+  },
   noteClicked: (id: number): AppThunkAction<KnownAction> => dispatch => {
     dispatch({
       type: "NOTE_CLICKED_ACTION",
@@ -159,8 +187,8 @@ export const noteActions = {
     dispatch({ type: "TAKE_NOTE_SUBMITTED_ACTION", id, x, y, body });
     if (id === 0) {
       noteService.takeNote(x, y, body).then(
-        () => {
-          dispatch({ type: "TAKE_NOTE_SUCCESS" });
+        (newId: number) => {
+          dispatch({ type: "TAKE_NOTE_SUCCESS", added: true, id: newId, x, y, body });
           history.push("/");
         },
         error => {
@@ -170,7 +198,7 @@ export const noteActions = {
     } else {
       noteService.updateNote(id, x, y, body).then(
         () => {
-          dispatch({ type: "TAKE_NOTE_SUCCESS" });
+          dispatch({ type: "TAKE_NOTE_SUCCESS", added: false, id, x, y, body });
           history.push("/");
         },
         error => {

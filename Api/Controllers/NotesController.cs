@@ -62,8 +62,8 @@ namespace Tigerspike.LandmarkRemark.Api.Controllers
         public IActionResult TakeNote(Model.Note note)
         {
             var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Upn).Value;
-            remarkService.CreateNote(username, GeometryPoint.Create(note.X, note.Y), note.Body);
-            return Ok();
+            var newNoteId = remarkService.CreateNote(username, GeometryPoint.Create(note.X, note.Y), note.Body);
+            return Ok(newNoteId);
         }
 
         [Authorize]

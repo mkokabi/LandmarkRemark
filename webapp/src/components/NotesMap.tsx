@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import { NoteState } from "../store";
-import { noteService, INote } from "../services/noteService";
-import MapContainer from "./MapContainer";
+import { INote } from "../services/noteService";
+import MapContainer, { default_center } from "./MapContainer";
 import { Marker } from "google-maps-react";
 import Note from "./Note";
 import { noteActions } from "../store/actions";
 
 const NotesMap = (noteState: NoteState) => {
-  const [notes, setNotes] = useState([] as INote[]);
   useEffect(() => {
-    noteService.getNotes().then(_notes => setNotes(_notes));
+    dispatch(noteActions.GetNotesAction(default_center.x, default_center.y));
   }, []);
 
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const NotesMap = (noteState: NoteState) => {
 
   const NotesGrid = () => (
     <Container>
-      {notes.map((note: INote) => (
+      {noteState.Notes.map((note: INote) => (
         <Row key={note.id}>
           <Col sm={{ size: 3, offset: 2 }}>Note: {note.body}</Col>
           <Col sm={{ size: 2 }}>Username: {note.name}</Col>
@@ -46,7 +45,7 @@ const NotesMap = (noteState: NoteState) => {
       <h2>Notes</h2>
       <NotesGrid></NotesGrid>
       <MapContainer onMapClicked={onMapClicked}>
-        {notes.map((note: INote) => (
+        {noteState.Notes.map((note: INote) => (
           <Marker
             key={note.id}
             id={note.id}

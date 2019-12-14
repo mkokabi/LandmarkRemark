@@ -62,14 +62,26 @@ export const noteReducer: Reducer<NoteState> = (
   if (state === undefined) {
     return {
       CurrentNote: { id: 0, x: 0, y: 0, body: "" },
-      IsNoteModalOpen: false
+      IsNoteModalOpen: false,
+      Notes: []
     };
   }
   const action = incomingAction as KnownAction;
   switch (action.type) {
+    case "GET_NOTES_ACTION":
+      return {
+        Notes: state.Notes,
+        IsNoteModalOpen: false
+      };
+    case "GET_NOTE_SUCCESS_ACTION":
+      return {
+        Notes: action.notes,
+        IsNoteModalOpen: false
+      };
     case "TAKE_NOTE_CLICKED_ACTION":
       return {
         IsNoteModalOpen: true,
+        Notes: state.Notes,
         CurrentNote: {
           id: 0,
           x: action.x,
@@ -80,6 +92,7 @@ export const noteReducer: Reducer<NoteState> = (
     case "NOTE_CLICKED_ACTION":
       return {
         IsNoteModalOpen: true,
+        Notes: state.Notes,
         CurrentNote: {
           id: action.id,
           x: 0,
@@ -90,6 +103,7 @@ export const noteReducer: Reducer<NoteState> = (
     case "NOTE_LOADED_ACTION":
       return {
         IsNoteModalOpen: true,
+        Notes: state.Notes,
         CurrentNote: {
           id: action.id,
           x: action.x,
@@ -97,8 +111,19 @@ export const noteReducer: Reducer<NoteState> = (
           body: action.body
         }
       };
+    case "TAKE_NOTE_SUCCESS":
+      return {
+        Notes: action.added
+          ? [
+              ...state.Notes,
+              { id: action.id, x: action.x, y: action.y, body: action.body }
+            ]
+          : state.Notes,
+        IsNoteModalOpen: false
+      };
     case "TAKE_NOTE_CLOSE_ACTION":
       return {
+        Notes: state.Notes,
         IsNoteModalOpen: false
       };
     default:

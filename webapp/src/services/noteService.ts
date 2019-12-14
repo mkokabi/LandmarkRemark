@@ -9,7 +9,7 @@ export interface INote {
 }
 
 export const noteService = {
-  getNotes(): Promise<INote[]> {
+  getNotes(x: number, y: number): Promise<INote[]> {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -18,7 +18,7 @@ export const noteService = {
     };
 
     return fetch(
-      `${process.env.REACT_APP_BACKEND_API_URL}/api/Notes?x=-122.12&y=47.67`,
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/Notes?x=${x}&y=${y}`,
       requestOptions
     )
       .then(handleResponse)
@@ -65,8 +65,8 @@ export const noteService = {
       requestOptions
     )
       .then(handleResponse)
-      .then(() => {
-        return 1;
+      .then((id: number) => {
+        return id;
       });
   },
 

@@ -42,22 +42,37 @@ Deploying the database
 
 ## User stories
 
+### Default look
+Logged in
+![Default look](images/logged_in.png "Logged In")
+
+Not Logged in
+![Default look](images/Logged_out.png "Not logged In")
+
+
 ### Registration
 User can start using the application by registration.
 This step only need email, username and password. 
 Password should be entered twice.
 
+![registration page](images/Signup_valid.png "Registration")
 
 ### Login
 Login is the starting point for the existing users.
+![Login page](images/Login_page.png "Login")
+
 
 ### Update profile
 Existing users can update their profile. 
 Currently the only fields here are username and password.
+![Profile page](images/Update_Profile.png "Update Profile")
+
 
 ### Taking note
 Logged in users cantake note by clicking on the map.
 It will open a popup where user can enter a note.
+![Note Taking page page](images/Popup_to_create_a_note.png "Note taking")
+
 
 ### Logout
 It would clear the local storage. 

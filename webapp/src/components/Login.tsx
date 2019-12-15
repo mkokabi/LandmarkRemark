@@ -72,7 +72,7 @@ const Login = () => {
   return (
     <>
       <Modal isOpen={modal}>
-        <ModalHeader close={closeBtn}>Login</ModalHeader>
+        <ModalHeader close={closeBtn}> {signup ? "Signup" : "Login"}</ModalHeader>
         <ModalBody>
           <form onSubmit={handleSubmit}>
             <div>

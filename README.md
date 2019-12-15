@@ -40,3 +40,28 @@ Deploying the database
 \Tigerspike.LandmarkRemark\Api>dotnet ef database update
 ```
 
+## User stories
+
+### Registration
+User can start using the application by registration.
+This step only need email, username and password. 
+Password should be entered twice.
+
+
+### Login
+Login is the starting point for the existing users.
+
+### Update profile
+Existing users can update their profile. 
+Currently the only fields here are username and password.
+
+### Taking note
+Logged in users cantake note by clicking on the map.
+It will open a popup where user can enter a note.
+
+### Logout
+It would clear the local storage. 
+
+
+
+

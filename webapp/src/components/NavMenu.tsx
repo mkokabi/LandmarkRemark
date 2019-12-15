@@ -76,9 +76,6 @@ const NavMenu = (loginState: LoginState) => {
                     <DropdownItem tag={Link} to="/Profile">
                       Profile
                     </DropdownItem>
-                    <DropdownItem tag={Link} to="/Note">
-                      Take note
-                    </DropdownItem>
                     <DropdownItem onClick={onLogoutClicked}>
                       Logout
                     </DropdownItem>

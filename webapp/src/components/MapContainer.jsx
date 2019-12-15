@@ -46,6 +46,10 @@ class MapContainer extends React.Component {
     this.props.onMapClicked(e.latLng.lng(), e.latLng.lat());
   };
 
+  onMapDragged  = (x, y) => {
+    this.props.onMapDragged(x, y);
+  }
+
   render() {
     return (
       <Map
@@ -54,6 +58,9 @@ class MapContainer extends React.Component {
         style={mapStyles}
         initialCenter={{ lat: default_center.y, lng: default_center.x }}
         onClick={this.onMapClicked}
+        onDragend={(props, map, e) => {
+          this.onMapDragged(map.center.lng(), map.center.lat())
+        }}
       >
         {this.props.children}
       </Map>

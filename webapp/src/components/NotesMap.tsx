@@ -19,6 +19,10 @@ const NotesMap = (noteState: NoteState) => {
     dispatch({ type: "TAKE_NOTE_CLICKED_ACTION", x, y, isNoteModalOpen: true });
   };
 
+  const onMapDragged = (x: number, y: number) => {
+    dispatch(noteActions.GetNotesAction(x, y));
+  };
+
   const NotesGrid = () => (
     <Container>
       {noteState.Notes.map((note: INote) => (
@@ -44,7 +48,10 @@ const NotesMap = (noteState: NoteState) => {
     <div>
       <h2>Notes</h2>
       <NotesGrid></NotesGrid>
-      <MapContainer onMapClicked={onMapClicked}>
+      <MapContainer
+        onMapClicked={onMapClicked}
+        onMapDragged={onMapDragged}
+      >
         {noteState.Notes.map((note: INote) => (
           <Marker
             key={note.id}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { userActions } from "../store/actions";
-import { IInputs } from "../services/userService";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { useHistory, useParams } from "react-router";
 

@@ -20,6 +20,8 @@ export const reducer: Reducer<LoginState> = (
         IsLoggedIn: true,
         UserInfo: action.userInfo
       };
+    case "LOGOUT_ACTION":
+      return unloadedState;
     case "LOGIN_FAILED":
       return {
         IsLoggedIn: false

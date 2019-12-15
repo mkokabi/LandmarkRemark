@@ -10,6 +10,7 @@ export type KnownAction =
   | LoginAction
   | LoginSuccessAction
   | LoginFailedAction
+  | LogoutAction
   | UpdateprofileAction
   | UpdateProfileSuccessAction
   | UpdateprofileFailedAction
@@ -51,6 +52,10 @@ interface LoginSuccessAction {
 
 interface LoginFailedAction {
   type: "LOGIN_FAILED";
+}
+
+interface LogoutAction {
+  type: "LOGOUT_ACTION";
 }
 
 interface UpdateprofileAction {
@@ -161,6 +166,12 @@ export const userActions = {
         dispatch({ type: "LOGIN_FAILED" });
       }
     );
+  },
+
+  logout: (): AppThunkAction<KnownAction> => dispatch => {
+    dispatch({ type: "LOGOUT_ACTION" });
+    userService.logout();
+    history.push("/");
   },
 
   updateProfile: (

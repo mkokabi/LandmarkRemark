@@ -54,6 +54,10 @@ export const userService = {
       });
   },
 
+  logout() {
+    localStorage.removeItem("user");
+  },
+
   getProfile(): Promise<IUserInfo> {
     var localStoredUser = localStorage.getItem("user");
     if (localStoredUser == null) {

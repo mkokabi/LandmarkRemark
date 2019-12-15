@@ -27,7 +27,7 @@ const NotesMap = (noteState: NoteState) => {
     <Container>
       <Row key="header">
         <Col sm={{ size: 3, offset: 2 }}>Note</Col>
-        <Col sm={{ size: 2 }}>Username</Col>
+        <Col sm={{ size: 2 }}>Created by</Col>
         <Col sm={{ size: 1 }}>x</Col>
         <Col sm={{ size: 1 }}>y</Col>
         <Col sm={{ size: 1 }}>id</Col>

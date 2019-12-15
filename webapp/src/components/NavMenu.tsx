@@ -15,11 +15,18 @@ import {
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./NavMenu.css";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { LoginState } from "../store";
+import { userActions } from "../store/actions";
 
 const NavMenu = (loginState: LoginState) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const onLogoutClicked = () => {
+    dispatch(userActions.logout());
+  };
 
   return (
     <header>
@@ -72,7 +79,9 @@ const NavMenu = (loginState: LoginState) => {
                     <DropdownItem tag={Link} to="/Note">
                       Take note
                     </DropdownItem>
-                    <DropdownItem>Logout</DropdownItem>
+                    <DropdownItem onClick={onLogoutClicked}>
+                      Logout
+                    </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               )}

@@ -93,5 +93,21 @@ namespace Tigerspike.LandmarkRemark.Services
                 Email = user.Email
             };
         }
+
+        public UserInfo Get(string username)
+        {
+            var user = dbContext.Users.FirstOrDefault(u => u.Username == username);
+            if (user != null)
+            {
+                throw new LoginFailedException();
+            }
+            return new UserInfo
+            {
+                Username = user.Username,
+                Email = user.Email,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname
+            };
+        }
     }
 }

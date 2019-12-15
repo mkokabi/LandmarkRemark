@@ -19,6 +19,7 @@ namespace Tigerspike.LandmarkRemark.Common
         /// <param name="userId">If provided, the response would be filtered by this user.</param>
         /// <returns></returns>
         IEnumerable<Note> GetNotesByLocation(Geometry location, int userId = 0);
+        Note GetNoteById(int id);
 
         /// <summary>
         /// Text search and return the notes.
@@ -35,5 +36,6 @@ namespace Tigerspike.LandmarkRemark.Common
         /// <param name="text">The note text.</param>
         /// <returns></returns>
         int CreateNote(string username, Geometry location, string text);
+        void UpdateNote(string username, int id, GeometryPoint geometryPoint, string body);
     }
 }

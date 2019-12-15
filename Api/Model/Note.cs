@@ -8,8 +8,9 @@ namespace Tigerspike.LandmarkRemark.Api.Model
         {
         }
 
-        public Note(string body, double x, double y, UserInfo owner)
+        public Note(int id, string body, double x, double y, UserInfo owner)
         {
+            this.Id = id;
             this.Body = body;
             this.X = x;
             this.Y = y;
@@ -19,7 +20,7 @@ namespace Tigerspike.LandmarkRemark.Api.Model
                 this.Name = owner.Username;
             }
         }
-
+        public int Id { get; set; }
         public string Body { get; set; }
         public double X { get; set; }
         public double Y { get; set; }

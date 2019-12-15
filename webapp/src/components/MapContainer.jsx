@@ -11,6 +11,17 @@ export const default_center = {
   y: 47.67
 }
 
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(position => { 
+    default_center.x = position.coords.longitude;
+    default_center.y = position.coords.latitude;
+  }, error => {
+    alert('Can not use your GPS ' + error);
+  }
+)} else {
+  alert('Can not use your GPS');
+}
+
 class MapContainer extends React.Component {
   state = {
     activeMarker: {},

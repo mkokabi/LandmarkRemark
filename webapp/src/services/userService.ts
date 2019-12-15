@@ -12,7 +12,26 @@ export interface IUserInfo {
   displayName: string;
 }
 
+export interface ISignupInfo extends IInputs {
+  email: string;
+}
+
 export const userService = {
+  signup (email: string, username: string, password: string): Promise<number> {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, username, password })
+    };
+    return fetch(
+      `${process.env.REACT_APP_BACKEND_API_URL}/api/User`,
+      requestOptions
+    )
+      .then(handleResponse)
+      .then(() => {
+        return 1;
+      });
+  },
   login(username: string, password: string): Promise<IUserInfo> {
     const requestOptions = {
       method: "POST",

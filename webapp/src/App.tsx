@@ -12,9 +12,9 @@ const App: React.FC = () => {
     <div className="App">
         <Layout>
           <Route exact path="/" component={Home} />
-          <Route path="/Login" component={Login} />
+          <Route path="/Login/:signup?" component={Login} />
           <Route path="/Profile" component={Profile} />
-          <Route path="/Note/:id/:x?/:y?" component={Note} />
+          <Route path="/Note" component={Note} />
         </Layout>
     </div>
   );

@@ -47,11 +47,18 @@ const NavMenu = (loginState: LoginState) => {
                 </NavLink>
               </NavItem>
               {!loginState.IsLoggedIn && (
-                <NavItem>
-                  <NavLink tag={Link} to="/Login">
-                    Login
-                  </NavLink>
-                </NavItem>
+                <>
+                  <NavItem>
+                    <NavLink tag={Link} to="/Login">
+                      Login
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} to="/Login/signup">
+                      Sign up
+                    </NavLink>
+                  </NavItem>
+                </>
               )}
               {loginState.IsLoggedIn && (
                 <UncontrolledDropdown nav inNavbar>

@@ -4,13 +4,15 @@ import { history } from "../.";
 import { noteService, INote } from "../services/noteService";
 
 export type KnownAction =
+  | SignupAction
+  | SignupSuccessAction
+  | SignupFailedAction
   | LoginAction
   | LoginSuccessAction
   | LoginFailedAction
   | UpdateprofileAction
   | UpdateProfileSuccessAction
   | UpdateprofileFailedAction
-
   | GetNotesAction
   | GetNotesSuccessAction
   | TakeNoteClickedAction
@@ -20,6 +22,21 @@ export type KnownAction =
   | TakeNoteSubmittedAction
   | TakeNoteSuccessAction
   | TakeNoteFailedAction;
+
+interface SignupAction {
+  type: "SIGNUP_ACTION";
+  email: string;
+  username: string;
+  password: string;
+}
+
+interface SignupSuccessAction {
+  type: "SIGNUP_SUCCESS";
+}
+
+interface SignupFailedAction {
+  type: "SIGNUP_FAILED";
+}
 
 interface LoginAction {
   type: "LOGIN_ACTION";
@@ -53,15 +70,14 @@ interface UpdateprofileFailedAction {
 }
 
 interface GetNotesAction {
-  type: "GET_NOTES_ACTION",
-  x: number,
-  y: number
+  type: "GET_NOTES_ACTION";
+  x: number;
+  y: number;
 }
 
 interface GetNotesSuccessAction {
   type: "GET_NOTE_SUCCESS_ACTION";
   notes: INote[];
-
 }
 
 interface TakeNoteClickedAction {
@@ -112,6 +128,24 @@ interface TakeNoteFailedAction {
 }
 
 export const userActions = {
+  signup: (
+    email: string,
+    username: string,
+    password: string
+  ): AppThunkAction<KnownAction> => dispatch => {
+    dispatch({ type: "SIGNUP_ACTION", email, username, password });
+
+    userService.signup(email, username, password).then(
+      user => {
+        dispatch({ type: "SIGNUP_SUCCESS" });
+        history.push("/");
+      },
+      error => {
+        dispatch({ type: "SIGNUP_FAILED" });
+      }
+    );
+  },
+
   login: (
     username: string,
     password: string
@@ -148,13 +182,17 @@ export const userActions = {
 };
 
 export const noteActions = {
-  GetNotesAction: (x: number, y: number): AppThunkAction<KnownAction> => dispatch => {
-    dispatch({type: "GET_NOTES_ACTION", x, y});
+  GetNotesAction: (
+    x: number,
+    y: number
+  ): AppThunkAction<KnownAction> => dispatch => {
+    dispatch({ type: "GET_NOTES_ACTION", x, y });
     noteService.getNotes(x, y).then(data =>
       dispatch({
         type: "GET_NOTE_SUCCESS_ACTION",
         notes: data
-      }))
+      })
+    );
   },
   noteClicked: (id: number): AppThunkAction<KnownAction> => dispatch => {
     dispatch({
@@ -188,7 +226,14 @@ export const noteActions = {
     if (id === 0) {
       noteService.takeNote(x, y, body).then(
         (newId: number) => {
-          dispatch({ type: "TAKE_NOTE_SUCCESS", added: true, id: newId, x, y, body });
+          dispatch({
+            type: "TAKE_NOTE_SUCCESS",
+            added: true,
+            id: newId,
+            x,
+            y,
+            body
+          });
           history.push("/");
         },
         error => {

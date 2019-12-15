@@ -27,7 +27,7 @@ const NavMenu = () => {
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
-            AppInsight Demo
+          Landmark Remark
           </NavbarBrand>
           <NavbarToggler
             onClick={() => setIsMenuOpen(!isMenuOpen)}

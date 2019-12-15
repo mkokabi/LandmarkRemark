@@ -5,6 +5,7 @@ const mapStyles = {
   height: "100%",
   width: "80%"
 };
+const zoom = 10;
 
 export const default_center = {
   x: -122.12,
@@ -54,7 +55,7 @@ class MapContainer extends React.Component {
     return (
       <Map
         google={this.props.google}
-        zoom={8}
+        zoom={zoom}
         style={mapStyles}
         initialCenter={{ lat: default_center.y, lng: default_center.x }}
         onClick={this.onMapClicked}

@@ -40,6 +40,12 @@ Deploying the database
 \Tigerspike.LandmarkRemark\Api>dotnet ef database update
 ```
 
+#### Backup
+The backup of a SQL database is included in database folder.
+
+#### SQL script
+The SQL scripts including some test data is included in database folder.
+
 ## User stories
 
 ### Default look

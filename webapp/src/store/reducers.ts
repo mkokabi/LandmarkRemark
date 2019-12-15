@@ -40,6 +40,7 @@ export const updateProfileReducer: Reducer = (
         UserInfo: {
           firstName: action.firstname,
           lastName: action.lastname,
+          displayName: action.firstname,
           token: ""
         },
         IsLoggedIn: true

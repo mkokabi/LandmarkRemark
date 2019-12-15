@@ -25,12 +25,19 @@ const NotesMap = (noteState: NoteState) => {
 
   const NotesGrid = () => (
     <Container>
+      <Row key="header">
+        <Col sm={{ size: 3, offset: 2 }}>Note</Col>
+        <Col sm={{ size: 2 }}>Username</Col>
+        <Col sm={{ size: 1 }}>x</Col>
+        <Col sm={{ size: 1 }}>y</Col>
+        <Col sm={{ size: 1 }}>id</Col>
+      </Row>
       {noteState.Notes.map((note: INote) => (
         <Row key={note.id}>
-          <Col sm={{ size: 3, offset: 2 }}>Note: {note.body}</Col>
-          <Col sm={{ size: 2 }}>Username: {note.name}</Col>
-          <Col sm={{ size: 1 }}>x: {note.x}</Col>
-          <Col sm={{ size: 1 }}>y: {note.y}</Col>
+          <Col sm={{ size: 3, offset: 2 }}>{note.body}</Col>
+          <Col sm={{ size: 2 }}>{note.name}</Col>
+          <Col sm={{ size: 1 }}>{note.x.toFixed(4)}</Col>
+          <Col sm={{ size: 1 }}>{note.y.toFixed(4)}</Col>
           <Col sm={{ size: 1 }}>
             <Button
               color="link"
@@ -46,12 +53,8 @@ const NotesMap = (noteState: NoteState) => {
 
   return (
     <div>
-      <h2>Notes</h2>
       <NotesGrid></NotesGrid>
-      <MapContainer
-        onMapClicked={onMapClicked}
-        onMapDragged={onMapDragged}
-      >
+      <MapContainer onMapClicked={onMapClicked} onMapDragged={onMapDragged}>
         {noteState.Notes.map((note: INote) => (
           <Marker
             key={note.id}

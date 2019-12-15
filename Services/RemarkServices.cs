@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Spatial;
@@ -60,6 +61,7 @@ namespace Tigerspike.LandmarkRemark.Services
             var geoPoint = geometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(point.X, point.Y));
             note.Location = geoPoint;
             note.Body = body;
+            note.Modified = DateTime.UtcNow;
             dbContext.SaveChanges();
         }
 

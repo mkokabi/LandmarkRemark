@@ -14,7 +14,7 @@ class Home extends React.PureComponent<HomeProps> {
       <div>
         <p>
           {this.props.IsLoggedIn
-            ? "Logged in, Hi " + (this.props.UserInfo as IUserInfo).firstName
+            ? "Logged in, Hi " + (this.props.UserInfo as IUserInfo).displayName
             : "Please log in"}
         </p>
         <NotesMap></NotesMap>

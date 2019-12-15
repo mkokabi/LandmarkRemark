@@ -39,7 +39,11 @@ namespace Api.Controllers
             {
                 return base.Unauthorized();
             }
-            return Ok(new Tigerspike.LandmarkRemark.Api.Model.LoginResult(loggedInUser.Username, loggedInUser.Email, loggedInUser.Token));
+            return Ok(
+                new Tigerspike.LandmarkRemark.Api.Model.LoginResult(
+                    loggedInUser.Username, 
+                    !string.IsNullOrWhiteSpace(loggedInUser.Firstname) ? loggedInUser.Firstname : loggedInUser.Username, 
+                    loggedInUser.Token));
         }
 
         [Authorize]
@@ -68,6 +72,11 @@ namespace Api.Controllers
         public IActionResult UpdateProfile([FromBody]Tigerspike.LandmarkRemark.Api.Model.RegistrationInfo registrationInfo)
         {
             var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Upn).Value;
+            userService.UpdateUser(new UserInfo {
+                Username = username,
+                Firstname = registrationInfo.FirstName,
+                Lastname = registrationInfo.LastName,
+            });
             return Ok();
         }
     }

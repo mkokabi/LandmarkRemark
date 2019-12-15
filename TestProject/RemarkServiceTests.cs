@@ -97,7 +97,7 @@ namespace TestProject
             CreateNotes();
             var remarkService = new RemarkServices(landmarkRemarkContext);
             var notes = remarkService.GetNotesByLocation(GeometryPoint.Create(-122.13, 47.68));
-            notes.Should().HaveCount(1);
+            notes.Should().HaveCount(3);
             notes.First().Body.Should().Be("Note C");
             notes.First().Owner.Username.Should().Be("testuser2");
         }

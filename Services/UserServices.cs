@@ -97,9 +97,9 @@ namespace Tigerspike.LandmarkRemark.Services
         public UserInfo Get(string username)
         {
             var user = dbContext.Users.FirstOrDefault(u => u.Username == username);
-            if (user != null)
+            if (user == null)
             {
-                throw new LoginFailedException();
+                throw new UserNotFoundException();
             }
             return new UserInfo
             {
@@ -108,6 +108,19 @@ namespace Tigerspike.LandmarkRemark.Services
                 Firstname = user.Firstname,
                 Lastname = user.Lastname
             };
+        }
+
+        public void UpdateUser(UserInfo userInfo)
+        {
+            var user = dbContext.Users.FirstOrDefault(u => u.Username == userInfo.Username);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+            user.Firstname = userInfo.Firstname;
+            user.Lastname = userInfo.Lastname;
+            user.Modified = DateTime.UtcNow;
+            dbContext.SaveChanges();
         }
     }
 }

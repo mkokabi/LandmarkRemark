@@ -15,8 +15,10 @@ import {
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./NavMenu.css";
+import { connect } from "react-redux";
+import { LoginState } from "../store";
 
-const NavMenu = () => {
+const NavMenu = (loginState: LoginState) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -27,7 +29,7 @@ const NavMenu = () => {
       >
         <Container>
           <NavbarBrand tag={Link} to="/">
-          Landmark Remark Demo
+            Landmark Remark Demo
           </NavbarBrand>
           <NavbarToggler
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -44,27 +46,29 @@ const NavMenu = () => {
                   Home
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/Login">
-                  Login
-                </NavLink>
-              </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Profile
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem tag={Link} to="/Profile">
-                  Profile
-                </DropdownItem>
-                <DropdownItem tag={Link} to="/Note">
-                  Take note
-                </DropdownItem>
-                <DropdownItem>
-                  Logout
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+              {!loginState.IsLoggedIn && (
+                <NavItem>
+                  <NavLink tag={Link} to="/Login">
+                    Login
+                  </NavLink>
+                </NavItem>
+              )}
+              {loginState.IsLoggedIn && (
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    {loginState.UserInfo && loginState.UserInfo.displayName}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem tag={Link} to="/Profile">
+                      Profile
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/Note">
+                      Take note
+                    </DropdownItem>
+                    <DropdownItem>Logout</DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              )}
             </ul>
           </Collapse>
         </Container>
@@ -73,4 +77,6 @@ const NavMenu = () => {
   );
 };
 
-export default NavMenu;
+export default connect((state: any) => {
+  return state.LoginResults;
+})(NavMenu as any);

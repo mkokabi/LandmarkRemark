@@ -9,6 +9,7 @@ export interface IUserInfo {
   token: string;
   firstName: string;
   lastName: string;
+  displayName: string;
 }
 
 export const userService = {
@@ -28,8 +29,7 @@ export const userService = {
         localStorage.setItem("user", JSON.stringify(user));
 
         return {
-          firstName: user.firstName,
-          lastName: user.lastName,
+          displayName: user.displayName,
           token: user.token
         } as IUserInfo;
       });

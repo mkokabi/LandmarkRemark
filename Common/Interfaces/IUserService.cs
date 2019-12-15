@@ -16,5 +16,6 @@
         /// <returns></returns>
         UserInfo Login(LoginInfo loginInfo);
         UserInfo Get(string username);
+        void UpdateUser(UserInfo userInfo);
     }
 }

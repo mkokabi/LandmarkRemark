@@ -5,6 +5,7 @@ import { INote } from "../services/noteService";
 export interface LoginState {
   IsLoggedIn: boolean;
   UserInfo?: IUserInfo;
+  Error?: string;
 }
 
 export interface NoteState {

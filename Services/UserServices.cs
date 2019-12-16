@@ -28,12 +28,12 @@ namespace Tigerspike.LandmarkRemark.Services
 
         public UserInfo Login(LoginInfo loginInfo)
         {
-            User user = null;
+           User user = null;
             var login = loginInfo.Login.ToUpper();
             user = dbContext.Users.SingleOrDefault(u => u.Username.ToUpper() == login || u.Email.ToUpper() == login);
             if (user == null)
             {
-                throw new LoginFailedException();
+                throw new LoginFailedException("Username or password is incorrect.");
             }
             if (crypto.Hash(loginInfo.Password) == user.Password)
             {

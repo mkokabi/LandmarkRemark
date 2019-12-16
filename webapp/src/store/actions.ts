@@ -52,6 +52,7 @@ interface LoginSuccessAction {
 
 interface LoginFailedAction {
   type: "LOGIN_FAILED";
+  error: string;  
 }
 
 interface LogoutAction {
@@ -163,7 +164,7 @@ export const userActions = {
         history.push("/");
       },
       error => {
-        dispatch({ type: "LOGIN_FAILED" });
+        dispatch({ type: "LOGIN_FAILED", error });
       }
     );
   },

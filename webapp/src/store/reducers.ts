@@ -24,7 +24,8 @@ export const reducer: Reducer<LoginState> = (
       return unloadedState;
     case "LOGIN_FAILED":
       return {
-        IsLoggedIn: false
+        IsLoggedIn: false,
+        Error: action.error
       };
     default:
       return state;

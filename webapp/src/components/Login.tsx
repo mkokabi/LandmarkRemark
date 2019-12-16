@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 
 import { userActions } from "../store/actions";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { useHistory, useParams } from "react-router";
+import { LoginState } from "../store";
 
-const Login = () => {
+const Login = (loginState: LoginState) => {
   let { signup } = useParams();
 
   const useLoginForm = (callback: any) => {
@@ -127,6 +128,7 @@ const Login = () => {
             <button type="submit" disabled={inputs.err}>
               {signup ? "Signup" : "Login"}
             </button>
+            {loginState.Error && <p>{loginState.Error}</p>}
           </form>
         </ModalBody>
       </Modal>
@@ -134,4 +136,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+// export default Login;
+export default connect((state: any) => {
+  return state.LoginResults;
+})(Login as any);
+

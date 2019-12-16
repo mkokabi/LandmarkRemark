@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Tigerspike.LandmarkRemark.Api.Middlewares;
 using Tigerspike.LandmarkRemark.Common;
 using Tigerspike.LandmarkRemark.Data;
 using Tigerspike.LandmarkRemark.Services;
@@ -66,6 +67,7 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseExceptionHandlerMiddleware();
 
             app.UseHttpsRedirection();
 

@@ -8,7 +8,7 @@ export function handleResponse(response: any) {
         // location.reload(true);
         alert("401 Error");
       }
-      const error = (data && data.message) || response.statusText;
+      const error = (data && data.Message) || response.statusText;
       return Promise.reject(error);
     }
     return data;
